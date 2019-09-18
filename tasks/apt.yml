@@ -1,0 +1,54 @@
+---
+- name: Deploy correct sources.list file
+  template:
+    src: sources.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+
+#
+# HACK: we have to use this command here because we do not want to
+#       gather_facts during bootstrap as it will fuck up fact caching.
+- block:
+  - name: Get current release codename
+    command: lsb_release -sc
+    changed_when: false
+    register: ubuntu_distro_codename
+    check_mode: false
+
+  - set_fact:
+      ansible_distribution: "{{ ubuntu_distro_codename.stdout }}"
+  when: ansible_distribution is not defined
+
+- name: Import key
+  apt_key:
+    url: "{{ apt_sources_ubuntu_repository_url }}/{{ ansible_distribution|lower }}.key"
+    state: present
+  when: apt_sources_import_custom_key
+
+- name: Update apt cache
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    force: true
+  register: apt_update
+  until: apt_update is success
+  retries: 4
+  delay: 20
+
+- name: Install default system packages
+  package:
+    state: present
+    force: true
+    name: "{{ apt_server_packages | union(apt_server_packages_kernel) }}"
+  register: apt_pkgs
+  until: apt_pkgs is success
+  retries: 4
+  delay: 20
+
+- name: Upgrade all installed packages
+  apt:
+    upgrade: safe
+    state: present
+  when: apt_upgrade_system

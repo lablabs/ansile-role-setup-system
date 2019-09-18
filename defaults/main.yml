@@ -1,0 +1,58 @@
+---
+
+apt_sources_ubuntu_repository_url: http://sk.archive.ubuntu.com
+
+apt_sources_import_custom_key: false
+apt_sources_enable_backports: true
+apt_sources_enable_security: true
+apt_sources_enable_updates: true
+
+apt_sources_archive_types:
+  - deb
+# - deb-src
+
+apt_sources_ubuntu_components:
+  - main
+  - multiverse
+  - restricted
+  - universe
+
+apt_upgrade_system: false
+
+apt_server_packages_kernel:
+  - "linux-image-generic-hwe-16.04"
+
+apt_server_packages:
+  - vim
+  - screen
+  - tmux
+  - telnet
+  - nmap
+  - links
+  - zsh
+  - rsync
+  - git
+  - silversearcher-ag
+  - apt-transport-https
+  - ca-certificates
+  - dstat
+  - sysstat
+  - smartmontools
+  - edac-utils
+  - jq
+  - tcpdump
+  - lsof
+  - debootstrap
+  - python3-setuptools
+  - python3-virtualenv
+  - python3-dev
+  - python3-pip
+  - nano
+
+server_systat_enable: true
+
+pip_server_executable: /usr/bin/pip3
+pip_server_packages:
+  - awscli
+  - botocore
+  - boto3

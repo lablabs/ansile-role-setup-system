@@ -1,0 +1,22 @@
+---
+- name: Add global_environment_variables to environment file
+  blockinfile:
+    dest: "/etc/environment"
+    state: present
+    marker: "# {mark} Managed by Ansible"
+    insertbefore: EOF
+    block: "{{ lookup('template', 'environment.j2') }}"
+
+- name: Check if we have sudoers installed
+  stat:
+    path: /etc/sudoers
+  register: sudoers_present
+
+- name: Add proxy settings to env_keep in sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^Defaults  env_keep = "http_proxy https_proxy HTTP_PROXY HTTPS_PROXY DISPLAY XAUTHORITY"$'
+    line: 'Defaults  env_keep = "http_proxy https_proxy HTTP_PROXY HTTPS_PROXY DISPLAY XAUTHORITY"'
+    validate: 'visudo -cf %s'
+  when: sudoers_present.stat.exists

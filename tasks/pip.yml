@@ -1,0 +1,7 @@
+---
+- name: install default pip packages
+  pip:
+    state: latest
+    name: "{{ pip_server_packages }}"
+    executable: "{{ pip_server_executable }}"
+  when: pip_server_packages | length > 0

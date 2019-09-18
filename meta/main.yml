@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Jakub Jursa
+  description: Role for setting up basic system packages
+  company: Ceske Radiokomunikacie a.s.
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+  categories:
+    - system
+
+dependencies: []

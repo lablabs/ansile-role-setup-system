@@ -1,0 +1,36 @@
+---
+
+- import_tasks: proxy.yml
+
+- name: Deploy gai.conf file which will preffer ipv4 over ipv6 DNS names
+  template:
+    src: gai.conf.j2
+    dest: /etc/gai.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- import_tasks: apt.yml
+- import_tasks: pip.yml
+
+- name: Configure SAR metrics gathering
+  lineinfile:
+    path: '{{ item.path }}'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    backrefs: '{{ item.backrefs | default(omit) }}'
+  with_items:
+    - path: /etc/default/sysstat
+      regexp: '^ENABLED'
+      line: 'ENABLED="true"'
+    - path: /etc/sysstat/sysstat
+      regexp: '^HISTORY'
+      line: HISTORY=20
+    - path: /etc/sysstat/sysstat
+      regexp: '^SADC_OPTIONS'
+      line: 'SADC_OPTIONS="-S DISK -S INT"'
+    - path: /etc/cron.d/sysstat
+      regexp: '^5-55'
+      backrefs: true
+      line: '*/1 * * * * root command -v debian-sa1 > /dev/null && debian-sa1 1 1'
+  when: server_systat_enable
