@@ -23,7 +23,7 @@
 
 - name: Import key
   apt_key:
-    url: "{{ apt_sources_ubuntu_repository_url }}/{{ ansible_distribution|lower }}.key"
+    url: "{{ apt_sources_ubuntu_repository_url }}/{{ ansible_distribution | lower }}.key"
     state: present
   when: apt_sources_import_custom_key
 
@@ -41,7 +41,7 @@
   package:
     state: present
     force: true
-    name: "{{ apt_server_packages | union(apt_server_packages_kernel) }}"
+    name: "{{ apt_server_packages + apt_server_packages_kernel + apt_additional_packages }}"
   register: apt_pkgs
   until: apt_pkgs is success
   retries: 4

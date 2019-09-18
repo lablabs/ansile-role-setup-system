@@ -19,40 +19,39 @@ apt_sources_ubuntu_components:
 
 apt_upgrade_system: false
 
-apt_server_packages_kernel:
-  - "linux-image-generic-hwe-16.04"
-
 apt_server_packages:
-  - vim
-  - screen
-  - tmux
-  - telnet
-  - nmap
-  - links
-  - zsh
-  - rsync
-  - git
-  - silversearcher-ag
   - apt-transport-https
   - ca-certificates
-  - dstat
-  - sysstat
-  - smartmontools
-  - edac-utils
-  - jq
-  - tcpdump
-  - lsof
+  - curl
   - debootstrap
-  - python3-setuptools
-  - python3-virtualenv
+  - dstat
+  - edac-utils
+  - git
+  - htop
+  - jq
+  - links
+  - lsof
+  - nano
+  - nmap
   - python3-dev
   - python3-pip
-  - nano
+  - python3-setuptools
+  - python3-virtualenv
+  - rsync
+  - screen
+  - silversearcher-ag
+  - smartmontools
+  - sysstat
+  - tcpdump
+  - telnet
+  - tmux
+  - vim
+  - zsh
+
+apt_server_packages_kernel: []
+apt_additional_packages: []
 
 server_systat_enable: true
 
 pip_server_executable: /usr/bin/pip3
-pip_server_packages:
-  - awscli
-  - botocore
-  - boto3
+pip_server_packages: []
