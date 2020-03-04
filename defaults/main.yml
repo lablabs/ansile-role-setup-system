@@ -1,5 +1,6 @@
 ---
 
+apt_sources_enable: true
 apt_sources_ubuntu_repository_url: http://sk.archive.ubuntu.com
 
 apt_sources_import_custom_key: false
@@ -51,6 +52,7 @@ apt_server_packages:
 apt_server_packages_kernel: []
 apt_additional_packages: []
 
+server_gai_enable: false
 server_systat_enable: true
 
 pip_server_executable: /usr/bin/pip3
